@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<record_update table="sys_script_include">
+  <sys_script_include action="INSERT_OR_UPDATE">
+    <access/>
+    <active>true</active>
+    <api_name>ChangeProblemRecord</api_name>
+    <caller_access/>
+    <client_callable>false</client_callable>
+    <description/>
+    <name>ChangeProblemRecord</name>
+    <script>        var ChangeProblemRecord = Class.create();
+        ChangeProblemRecord.prototype = {
+            initialize: function() {
+
+            },
+            addRecord: function() {
+                var record = {};
+                record.sys_id = this.getParameter('sys_id');
+                record.problem_state = this.getParameter('problem_state');
+                record.work_notes = this.getParameter('work_notes');
+                record.assignment_group = this.getParameter('assignment_group');
+                record.assigned_to = this.getParameter('assigned_to');
+                record.watch_list = this.getParameter('watch_list');
+                record.resolution_code = this.getParameter('resolution_code');
+                this.addCommon(record);
+            },
+
+            //添加修改记录-服务端调用
+            addRecordServer: function(record) {
+                this.addCommon(record);
+            },
+
+            addCommon: function(record) {
+                var stringUtils = new StringUtils();
+
+                var isChange = false;
+                var change_record = new GlideRecord('itsm_incident_change_record');
+
+                // 更新,查询数据库记录信息
+                var inGr = new GlideRecord('problem');
+                if (!inGr.get(record.sys_id)) {
+                    gs.addErrorMessage('问题不存在' + sys_id);
+                    current.setAbortAction(true);
+                }
+                // 状态修改
+                var problem_state = inGr.getValue("problem_state");
+                if (record.problem_state != problem_state) {
+                    isChange = true;
+                    change_record.setValue("problem_before_state", problem_state);
+                }
+                // 工作笔记修改
+                var db_work_notes = inGr.getValue("work_notes");
+                if (record.work_notes != db_work_notes) {
+                    isChange = true;
+                    change_record.setValue("work_notes", record.work_notes);
+                }
+                // 分配组不为空,并且与数据库值不一样 创建分配组记录
+                var db_assignment_group = inGr.getValue("assignment_group");
+                if (!stringUtils.isEmpty(record.assignment_group) &amp;&amp; record.assignment_group != db_assignment_group) {
+                    isChange = true;
+                    //修改指派组
+                    change_record.setValue("ch_assignment_group", record.assignment_group);
+                }
+                // 分配人不为空,并且与数据库值不一样 创建分配人记录
+                var db_assigned_to = inGr.getValue("assigned_to");
+                if (!stringUtils.isEmpty(record.assigned_to) &amp;&amp; record.assigned_to != db_assigned_to) {
+                    isChange = true;
+                    //修改指派人
+                    change_record.setValue("ch_assigned_to", record.assigned_to); 
+                }
+
+                //有修改
+                if (isChange) {
+                    change_record.setValue("problem_id", record.sys_id);
+                    change_record.setValue("problem_current_state", record.problem_state);
+                    // 设置通知发送的处理人
+                    change_record.setValue("assigned_to", record.assigned_to);
+                    // 设置通知处理组
+                    change_record.setValue("assignment_group", record.assignment_group);
+                    // 设置解决码
+                    change_record.setValue("resolution_code", record.resolution_code);
+                    if (!stringUtils.isEmptyList(record.watch_list)) {
+                        //设置通知发送的观察者名单;
+                        var watch_list = stringUtils.subListStrValue(record.watch_list);
+                        change_record.setValue("watch_list", watch_list);
+                    }
+                    //新增
+                        change_record.setValue("record_type", '问题');
+                        change_record.insert();
+                }
+            }
+        }</script>
+    <sys_class_name>sys_script_include</sys_class_name>
+    <sys_created_by>koushiqiang</sys_created_by>
+    <sys_created_on>2022-06-14 08:12:58</sys_created_on>
+    <sys_effective/>
+    <sys_id>8653585872d145edb480506ef2feacd5</sys_id>
+    <sys_mod_count>1</sys_mod_count>
+    <sys_name/>
+    <sys_package/>
+    <sys_policy/>
+    <sys_scope>3a9f0e70b02f4cec90a10c2fe93a88a7</sys_scope>
+    <sys_update_name/>
+    <sys_updated_by>koushiqiang</sys_updated_by>
+    <sys_updated_on>2022-06-20 18:55:25</sys_updated_on>
+  </sys_script_include>
+</record_update>

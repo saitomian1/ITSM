@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<record_update table="sys_ui_action">
+  <sys_ui_action action="INSERT_OR_UPDATE">
+    <action_name/>
+    <active>true</active>
+    <client>true</client>
+    <client_script_v2/>
+    <comments/>
+    <condition>gs.getUser().userRoles&amp;&amp;(gs.getUser().userRoles.contains("ITSM-重大事件管理员")||gs.getUser().userRoles.contains("ITSM-事件管理员"))</condition>
+    <form_action>true</form_action>
+    <form_button>false</form_button>
+    <form_button_v2>false</form_button_v2>
+    <form_context_menu>true</form_context_menu>
+    <form_link>false</form_link>
+    <form_menu_button_v2>false</form_menu_button_v2>
+    <form_style/>
+    <hint/>
+    <isolate_script>false</isolate_script>
+    <list_action>false</list_action>
+    <list_banner_button>false</list_banner_button>
+    <list_button>false</list_button>
+    <list_choice>false</list_choice>
+    <list_context_menu>false</list_context_menu>
+    <list_link>false</list_link>
+    <list_save_with_form_button>false</list_save_with_form_button>
+    <list_style/>
+    <messages/>
+    <name>提出重大事件候选</name>
+    <onclick>proposeMICOnConfirmation()</onclick>
+    <order>100</order>
+    <script>
+function proposeMICOnConfirmation() {
+    //通知人
+    var msg_content = "";
+
+    var incident_id = g_form.getValue("number");//事件编号
+    var work_notes = g_form.getValue('work_notes');//工作笔记
+    var userName;
+    var ga = new GlideAjax('UserUtils');
+    ga.addParam('sysparm_name', 'getUserName'); //方法名称
+    ga.getJson(response =&gt; {
+      if (response.data == null || response.status != "success") {
+        var msg = new GwtMessage();
+        msg.addErrorMessage('获取当前用户id异常');
+        return;
+      }
+    console.log(response.data);
+    userName = response.data.userName;
+    console.log(userName);
+    var gw = new GwtMessage();
+    var MI_state = g_form.getValue('major_incident_state');
+    
+    if(MI_state==''||MI_state==null||MI_state!='accepted'){
+     g_form.setValue('major_incident_state', 'proposed');
+     if(work_notes==null||work_notes==''){
+       g_form.setValue('work_notes', userName+'提出重大事件候选');
+      }
+     msg_content = "hrmitsm事件编号:" + incident_id + "已变成重大事件候选";
+     var assigned_to = g_form.getValue("assigned_to") + "";
+     console.log(msg_content);
+     var chat = new GlideAjax('GroupChatClientUtil');
+     chat.addParam('sysparm_name', 'sendMessage');
+     chat.addParam('at_user_ids', assigned_to);
+     chat.addParam('msg_content', msg_content);
+     chat.addParam('is_at_all', 'true');
+     chat.addParam('message_type', 'text');
+     chat.getJson(response =&gt; {
+          
+      })
+    current.update();
+    gw.addInfoMessage("已提出重大事件候选");
+    }
+    });
+    
+  }</script>
+    <show_insert>false</show_insert>
+    <show_multiple_update>false</show_multiple_update>
+    <show_query>false</show_query>
+    <show_update>true</show_update>
+    <sys_class_name>sys_ui_action</sys_class_name>
+    <sys_created_by>wangzhihao</sys_created_by>
+    <sys_created_on>2022-06-01 15:47:05</sys_created_on>
+    <sys_domain>global</sys_domain>
+    <sys_domain_path>/</sys_domain_path>
+    <sys_effective/>
+    <sys_id>8bcf3f49409f46f3a00d66d2c2ec1150</sys_id>
+    <sys_mod_count>1</sys_mod_count>
+    <sys_name/>
+    <sys_overrides/>
+    <sys_package/>
+    <sys_policy/>
+    <sys_scope>3a9f0e70b02f4cec90a10c2fe93a88a7</sys_scope>
+    <sys_update_name/>
+    <sys_updated_by>wangzhihao</sys_updated_by>
+    <sys_updated_on>2022-06-13 21:24:48</sys_updated_on>
+    <table>incident</table>
+  </sys_ui_action>
+</record_update>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<record_update table="sys_script_client">
+  <sys_script_client action="INSERT_OR_UPDATE">
+    <active>true</active>
+    <applies_extended>false</applies_extended>
+    <condition>true</condition>
+    <description/>
+    <field>problem_state</field>
+    <global>true</global>
+    <isolate_script>false</isolate_script>
+    <messages/>
+    <name>问题状态触发页面显示变更</name>
+    <order>100</order>
+    <script>//问题阶段变更替换页面内容
+if(g_form.getValue('problem_state')==2){
+    //取消原因必填
+    g_form.setMandatory('canceled_reason', true);
+  }
+if(g_form.getValue('problem_state')&gt;=102){
+    //评估状态分配人必选
+    g_form.setMandatory('assigned_to', true);
+  }
+  //根因分析状态及以上，根因、修复笔记必填
+    console.log(g_form.getValue('problem_state'));
+  if(g_form.getValue('problem_state') &gt;= 103){
+    g_form.setMandatory('cause_notes', true);
+    g_form.setMandatory('fix_notes', true);
+  }
+  if(g_form.getValue('problem_state') &gt;= 104){
+    g_form.setMandatory('fix_notes', true);
+  }
+  if(g_form.getValue('problem_state')&gt;=106){
+    //已解决解决码显示
+      g_form.setVisible('resolution_code',true);
+    g_form.setVisible('closed_by',true);
+    g_form.setVisible('closed_at',true);
+    g_form.setVisible('fix_by',true);
+    g_form.setVisible('fix_at',true);
+  }
+  </script>
+    <sys_class_name>sys_script_client</sys_class_name>
+    <sys_created_by>koushiqiang</sys_created_by>
+    <sys_created_on>2022-06-02 08:59:10</sys_created_on>
+    <sys_domain>global</sys_domain>
+    <sys_domain_path>/</sys_domain_path>
+    <sys_effective/>
+    <sys_id>1dd11c7e96d647e0a5b724be89ff1b06</sys_id>
+    <sys_mod_count>1</sys_mod_count>
+    <sys_name/>
+    <sys_overrides/>
+    <sys_package/>
+    <sys_policy/>
+    <sys_scope>3a9f0e70b02f4cec90a10c2fe93a88a7</sys_scope>
+    <sys_update_name/>
+    <sys_updated_by>koushiqiang</sys_updated_by>
+    <sys_updated_on>2022-06-09 11:10:48</sys_updated_on>
+    <table>problem</table>
+    <type>onChange</type>
+    <ui_type>0</ui_type>
+    <view/>
+  </sys_script_client>
+</record_update>

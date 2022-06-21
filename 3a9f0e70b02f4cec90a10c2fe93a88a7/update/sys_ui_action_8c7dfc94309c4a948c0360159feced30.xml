@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<record_update table="sys_ui_action">
+  <sys_ui_action action="INSERT_OR_UPDATE">
+    <action_name/>
+    <active>true</active>
+    <client>true</client>
+    <client_script_v2/>
+    <comments/>
+    <condition>current.getValue("incident_state")=="6" &amp;&amp; (current.getValue("caller_id")== gs.getUserID() || gs.hasRole("admin"))</condition>
+    <form_action>false</form_action>
+    <form_button>true</form_button>
+    <form_button_v2>false</form_button_v2>
+    <form_context_menu>false</form_context_menu>
+    <form_link>false</form_link>
+    <form_menu_button_v2>false</form_menu_button_v2>
+    <form_style/>
+    <hint/>
+    <isolate_script>false</isolate_script>
+    <list_action>false</list_action>
+    <list_banner_button>false</list_banner_button>
+    <list_button>false</list_button>
+    <list_choice>false</list_choice>
+    <list_context_menu>false</list_context_menu>
+    <list_link>false</list_link>
+    <list_save_with_form_button>false</list_save_with_form_button>
+    <list_style/>
+    <messages/>
+    <name>事件关闭</name>
+    <onclick>close()</onclick>
+    <order>100</order>
+    <script>// 当事件为 == 解决, 登录人为admin,呼叫者 显示关闭按钮,
+function close() {
+
+  //设置为以解决
+  g_form.setValue("incident_state", 7)
+
+  // 1.记录事件修改状态
+  var changeGa = new GlideAjax('ChangeIncidentRecord');
+  changeGa.addParam('sysparm_name', 'addRecord'); //方法名称
+  changeGa.addParam('sys_id', current.sys_id);
+  changeGa.addParam('incident_state', 7);
+  changeGa.addParam('work_notes', g_form.getValue("work_notes"));
+  changeGa.addParam('assignment_group', g_form.getValue("assignment_group"));
+  changeGa.addParam('assigned_to', g_form.getValue("assigned_to"));
+  changeGa.addParam('watch_list', g_form.getValue("watch_list"));
+  changeGa.addParam('caller_id', g_form.getValue("caller_id"));
+  changeGa.getJson(response =&gt; {
+    //debugger;
+    if (response.data == null || response.status != "success") {
+      var msg = new GwtMessage();
+      msg.addErrorMessage('记录事件状态异常');
+      return;
+    }
+
+    var ga = new GlideAjax('ParentChildIncident');
+    ga.addParam('sysparm_name', 'updateChildren'); //方法名称
+    ga.addParam('parent_sys_id', current.sys_id);
+    ga.addParam('parent_incident_state', 7);
+    ga.addParam('close_code', g_form.getValue("close_code"));
+    ga.addParam('close_notes', g_form.getValue("close_notes"));
+    ga.getJson(response =&gt; {
+      debugger;
+      if (response.data == null || response.status != "success") {
+        var msg = new GwtMessage();
+        msg.addErrorMessage('薪资数据校验异常');
+        return;
+      }
+      current.update(function() {
+        window.location.reload();
+      }, {
+        prevent: true
+      });
+    });
+  });
+
+
+}</script>
+    <show_insert>false</show_insert>
+    <show_multiple_update>false</show_multiple_update>
+    <show_query>false</show_query>
+    <show_update>true</show_update>
+    <sys_class_name>sys_ui_action</sys_class_name>
+    <sys_created_by>litao</sys_created_by>
+    <sys_created_on>2022-06-01 14:36:26</sys_created_on>
+    <sys_domain>global</sys_domain>
+    <sys_domain_path>/</sys_domain_path>
+    <sys_effective/>
+    <sys_id>8c7dfc94309c4a948c0360159feced30</sys_id>
+    <sys_mod_count>1</sys_mod_count>
+    <sys_name/>
+    <sys_overrides/>
+    <sys_package/>
+    <sys_policy/>
+    <sys_scope>3a9f0e70b02f4cec90a10c2fe93a88a7</sys_scope>
+    <sys_update_name/>
+    <sys_updated_by>litao</sys_updated_by>
+    <sys_updated_on>2022-06-09 14:42:01</sys_updated_on>
+    <table>incident</table>
+  </sys_ui_action>
+</record_update>

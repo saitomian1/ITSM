@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<record_update table="sys_script">
+  <sys_script action="INSERT_OR_UPDATE">
+    <abort_action>false</abort_action>
+    <access>package_private</access>
+    <action_delete>false</action_delete>
+    <action_insert>true</action_insert>
+    <action_query>false</action_query>
+    <action_update>true</action_update>
+    <active>true</active>
+    <add_message>false</add_message>
+    <advanced>true</advanced>
+    <change_fields>false</change_fields>
+    <client_callable>false</client_callable>
+    <collection>incident</collection>
+    <condition/>
+    <description/>
+    <execute_function>false</execute_function>
+    <filter_condition/>
+    <is_rest>false</is_rest>
+    <message/>
+    <name>SLA实际运行计算</name>
+    <order>100</order>
+    <priority>100</priority>
+    <rest_method/>
+    <rest_method_text/>
+    <rest_service/>
+    <rest_service_text/>
+    <rest_variables/>
+    <role_conditions/>
+    <script>//gs.print("SLA计算--开始");
+calculate();
+//gs.print("SLA计算--结束");
+
+
+function calculate() {
+  // 查询sla响应任务
+  var grTaskSla = new GlideRecord('task_sla');
+  grTaskSla.addQuery('stage', "!=", "completed");
+  grTaskSla.addQuery('stage', "!=", "breached");
+  grTaskSla.addQuery('task', current.getValue("sys_id"));
+  grTaskSla.query();
+  var dateUtils = new DateUtils();
+  var task_sla = null;
+  while (grTaskSla.hasNext()) {
+    //gs.print("SLA计算--查询到数据");
+    
+    grTaskSla.next();
+
+    //开始时间 跟当前时间 计算实际经过时间
+    var start_time = grTaskSla.getValue("start_time") + "";
+    start_time = start_time.replace("T", " ");
+    var currentDateTime = dateUtils.getCurrentDateTime();
+
+    //实际经过时间
+    var hour = dateUtils.getIntervalHour(start_time, currentDateTime);
+    grTaskSla.setValue("actual_elapsed_time_str", hour);
+
+    //开始时间 跟违约时间 计算一共多少小时
+    var breach_time = grTaskSla.getValue("breach_time") + "";
+    breach_time = breach_time.replace("T", " ");
+    var totalHour = dateUtils.getIntervalHour(start_time, breach_time);
+
+    //计算实际百分比  实际剩余时间
+    if (currentDateTime &gt; breach_time) {
+      grTaskSla.setValue("percentage", "100");
+      grTaskSla.setValue("actual_time_left_str", "0");
+      //设置违约
+      grTaskSla.setValue("has_breached", true);
+    } else {
+      var number = new NumberUtils();
+      var percentage = number.floor(number.div(hour, totalHour),2)*100;
+      var left = number.sub(totalHour, hour);
+      grTaskSla.setValue("percentage", percentage);
+      grTaskSla.setValue("actual_time_left_str", left);
+    }
+    grTaskSla.update();
+  }
+}
+
+// 50 &lt; 百分比 &lt; 70, 通知处理人
+// 70 &lt; 百分比 , 通知处理人,处理组
+// 违约 通知 处理人,处理组
+function notification(){
+  
+}
+</script>
+    <sys_class_name>sys_script</sys_class_name>
+    <sys_created_by>litao</sys_created_by>
+    <sys_created_on>2022-06-08 11:12:44</sys_created_on>
+    <sys_domain>global</sys_domain>
+    <sys_domain_path>/</sys_domain_path>
+    <sys_effective/>
+    <sys_id>bd08cd3ea81347fda2d78c188421582f</sys_id>
+    <sys_mod_count>1</sys_mod_count>
+    <sys_name/>
+    <sys_overrides/>
+    <sys_package/>
+    <sys_policy/>
+    <sys_scope>3a9f0e70b02f4cec90a10c2fe93a88a7</sys_scope>
+    <sys_update_name/>
+    <sys_updated_by>litao</sys_updated_by>
+    <sys_updated_on>2022-06-09 13:05:37</sys_updated_on>
+    <template/>
+    <when>after</when>
+  </sys_script>
+</record_update>

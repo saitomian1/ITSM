@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<record_update table="sys_script">
+  <sys_script action="INSERT_OR_UPDATE">
+    <abort_action>false</abort_action>
+    <access>package_private</access>
+    <action_delete>false</action_delete>
+    <action_insert>true</action_insert>
+    <action_query>false</action_query>
+    <action_update>true</action_update>
+    <active>false</active>
+    <add_message>false</add_message>
+    <advanced>true</advanced>
+    <change_fields>false</change_fields>
+    <client_callable>false</client_callable>
+    <collection>incident</collection>
+    <condition/>
+    <description/>
+    <execute_function>false</execute_function>
+    <filter_condition/>
+    <is_rest>false</is_rest>
+    <message/>
+    <name>(平台不支持)事件改变通知</name>
+    <order>1000</order>
+    <priority>100</priority>
+    <rest_method/>
+    <rest_method_text/>
+    <rest_service/>
+    <rest_service_text/>
+    <rest_variables/>
+    <role_conditions/>
+    <script>// 新增:
+// 1.新增事件,     通知处理组/处理人 (不为空时)
+// 更新:
+// 2.事件状态 = 解决,通知呼叫者
+// 3.事件重新打开通知 处理人/处理组 (不为空时)
+// 4.事件状态改变 通知关注者列表的人
+
+var log = new LogUtils();
+var stringUtils = new StringUtils();
+
+var sys_id = current.getValue("sys_id") + "";
+log.debug("事件通知", "事件通知开始:记录id", sys_id);
+
+var caller_id = current.getValue("caller_id");
+var incident_state = current.getValue("incident_state");
+var assignment_group = current.getValue("assignment_group");
+var assigned_to = current.getValue("assigned_to");
+
+if (log.isDebug("事件通知")) {
+  log.info("呼叫者，", caller_id);
+  log.info("分配组，", assignment_group);
+  log.info("分配人，", assigned_to);
+  log.info("状态", incident_state);
+}
+
+if (!stringUtils.isEmpty(sys_id)) {
+  //更新记录
+  var inGr = new GlideRecord('incident');
+  var flg = inGr.get(sys_id);
+  if (!inGr.get(sys_id)) {
+    current.setAbortAction(true);
+  }
+  var dbCaller_id = inGr.getValue("caller_id");
+  var dbIncident_state = inGr.getValue("incident_state");
+  var dbAssignment_group = inGr.getValue("assignment_group");
+  var dbAssigned_to = inGr.getValue("assigned_to");
+
+  if (log.isDebug("事件通知")) {
+    log.info("db呼叫者，", dbCaller_id);
+    log.info("db分配组，", dbAssignment_group);
+    log.info("db分配人，", dbAssigned_to);
+    log.info("db状态", dbIncident_state);
+  }
+ 
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+log.debug("事件通知", "事件通知结束:记录id", sys_id);</script>
+    <sys_class_name>sys_script</sys_class_name>
+    <sys_created_by>litao</sys_created_by>
+    <sys_created_on>2022-06-02 16:18:27</sys_created_on>
+    <sys_domain>global</sys_domain>
+    <sys_domain_path>/</sys_domain_path>
+    <sys_effective/>
+    <sys_id>f07ee245062c43c1af0904bfe7c2882b</sys_id>
+    <sys_mod_count>1</sys_mod_count>
+    <sys_name/>
+    <sys_overrides/>
+    <sys_package/>
+    <sys_policy/>
+    <sys_scope>3a9f0e70b02f4cec90a10c2fe93a88a7</sys_scope>
+    <sys_update_name/>
+    <sys_updated_by>litao</sys_updated_by>
+    <sys_updated_on>2022-06-08 01:03:13</sys_updated_on>
+    <template/>
+    <when>before</when>
+  </sys_script>
+</record_update>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<record_update table="sys_script_client">
+  <sys_script_client action="INSERT_OR_UPDATE">
+    <active>true</active>
+    <applies_extended>false</applies_extended>
+    <condition/>
+    <description/>
+    <field/>
+    <global>true</global>
+    <isolate_script>false</isolate_script>
+    <messages/>
+    <name>lt-事件关闭时字段设置禁用</name>
+    <order>100</order>
+    <script>function onLoad() {
+  var incident_state = g_form.getValue('incident_state');
+  if (incident_state == 7) {
+    g_form.setDisabled('caller_id', true);
+    g_form.setDisabled('category', true);
+    g_form.setDisabled('incident_state', true);
+    g_form.setDisabled('impact', true);
+    g_form.setDisabled('urgency', true);
+    g_form.setDisabled('assignment_group', true);
+    g_form.setDisabled('assigned_to', true);
+    g_form.setDisabled('short_description', true);
+    g_form.setDisabled('close_code', true);
+    g_form.setDisabled('close_notes', true);
+  }
+}</script>
+    <sys_class_name>sys_script_client</sys_class_name>
+    <sys_created_by>litao</sys_created_by>
+    <sys_created_on>2022-06-08 22:41:43</sys_created_on>
+    <sys_domain>global</sys_domain>
+    <sys_domain_path>/</sys_domain_path>
+    <sys_effective/>
+    <sys_id>dcb1ad8caf7f4b16a1b342eb0257af6d</sys_id>
+    <sys_mod_count>1</sys_mod_count>
+    <sys_name/>
+    <sys_overrides/>
+    <sys_package/>
+    <sys_policy/>
+    <sys_scope>3a9f0e70b02f4cec90a10c2fe93a88a7</sys_scope>
+    <sys_update_name/>
+    <sys_updated_by>litao</sys_updated_by>
+    <sys_updated_on>2022-06-09 14:43:49</sys_updated_on>
+    <table>incident</table>
+    <type>onLoad</type>
+    <ui_type>0</ui_type>
+    <view/>
+  </sys_script_client>
+</record_update>
