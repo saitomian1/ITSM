@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<record_update table="sys_db_object">
+  <sys_db_object action="INSERT_OR_UPDATE">
+    <access>public</access>
+    <actions_access>false</actions_access>
+    <alter_access>false</alter_access>
+    <caller_access/>
+    <client_scripts_access>false</client_scripts_access>
+    <configuration_access>false</configuration_access>
+    <create_access>false</create_access>
+    <create_access_controls>true</create_access_controls>
+    <delete_access>false</delete_access>
+    <extension_model>TPC</extension_model>
+    <is_extendable>false</is_extendable>
+    <label>修改记录</label>
+    <live_feed_enabled>false</live_feed_enabled>
+    <name>itsm_incident_change_record</name>
+    <number_ref/>
+    <provider_class/>
+    <read_access>true</read_access>
+    <scriptable_table/>
+    <super_class/>
+    <sys_class_code>$φ</sys_class_code>
+    <sys_class_name>sys_db_object</sys_class_name>
+    <sys_class_path>/$φ</sys_class_path>
+    <sys_created_by>litao</sys_created_by>
+    <sys_created_on>2022-06-06 23:48:31</sys_created_on>
+    <sys_effective/>
+    <sys_id>7e85889b36244426a9f0df9dde5b9741</sys_id>
+    <sys_mod_count>20</sys_mod_count>
+    <sys_name/>
+    <sys_package/>
+    <sys_policy/>
+    <sys_scope>3a9f0e70b02f4cec90a10c2fe93a88a7</sys_scope>
+    <sys_update_name>sys_db_object_7e85889b36244426a9f0df9dde5b9741</sys_update_name>
+    <sys_updated_by>koushiqiang</sys_updated_by>
+    <sys_updated_on>2022-06-20 18:56:06</sys_updated_on>
+    <update_access>false</update_access>
+    <user_role>7e8a7f7beccc4ed7a8bdbe08254d1027</user_role>
+    <ws_access>true</ws_access>
+  </sys_db_object>
+</record_update>

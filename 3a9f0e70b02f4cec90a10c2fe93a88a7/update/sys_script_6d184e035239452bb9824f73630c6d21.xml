@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<record_update table="sys_script">
+  <sys_script action="INSERT_OR_UPDATE">
+    <abort_action>false</abort_action>
+    <access>package_private</access>
+    <action_delete>false</action_delete>
+    <action_insert>true</action_insert>
+    <action_query>false</action_query>
+    <action_update>true</action_update>
+    <active>false</active>
+    <add_message>false</add_message>
+    <advanced>true</advanced>
+    <change_fields>false</change_fields>
+    <client_callable>false</client_callable>
+    <collection>incident</collection>
+    <condition/>
+    <description/>
+    <execute_function>false</execute_function>
+    <filter_condition/>
+    <is_rest>false</is_rest>
+    <message/>
+    <name>(平台不支持)父子事件状态设置</name>
+    <order>100</order>
+    <priority>100</priority>
+    <rest_method/>
+    <rest_method_text/>
+    <rest_service/>
+    <rest_service_text/>
+    <rest_variables/>
+    <role_conditions/>
+    <script>var log = new LogUtils();
+var stringUtils = new StringUtils();
+// 1.当该事件下有子类事件时,不能设置父类事件字段
+var parent_incident = current.getValue("parent_incident");
+
+if (log.isDebug("incident")) {
+  log.info("记录id", current.getValue("sys_id"))
+  log.info("父事件", parent_incident)
+  log.info("当前事件状态", current.getValue("incident_state"))
+}
+
+var isChildren = isChildren(current.getValue("sys_id"));
+if (!stringUtils.isEmpty(parent_incident) &amp;&amp; isChildren) {
+  gs.addErrorMessage('当前事件下有子类事件时不能设置父类事件');
+  current.setAbortAction(true)
+}
+
+// 2.当事件 状态 设置为关闭时, 查询该事件的所有 子事件,设置为 已解决
+if (isChildren &amp;&amp; "7" == current.getValue("incident_state")) {
+  updateChildren(current.getValue("sys_id"));
+}
+
+// 3.当事件状态 !=以解决  !=已关闭,  查询父事件状态=已关闭, 则设置当前事件状态=以解决
+if (!stringUtils.isEmpty(parent_incident) &amp;&amp; current.getValue("incident_state") != 6 &amp;&amp; current.getValue("incident_state") != 7) {
+  var incident = getParentIncident(current.getValue("sys_id"))
+  if (log.isDebug("incident"))
+    log.info("查询父事件状态", incident.getValue("incident_state"));
+
+  if (7 == incident.getValue("incident_state")) {
+    current.setValue("incident_state", 6);
+    //设置解决code和解决原因
+    current.setValue("close_code", incident.getValue("close_code"));
+    current.setValue("close_notes", "根据父事件解决:" + incident.getValue("close_notes"));
+  }
+}
+
+//current.setAbortAction(true)
+
+
+
+
+
+
+
+
+//查询父事件
+function getParentIncident(sys_id) {
+  var inGr1 = new GlideRecord('incident');
+  var flg = inGr1.get(sys_id);
+  if (!flg) {
+    gs.addErrorMessage('父类事件不存在');
+    current.setAbortAction(true);
+  }
+  return inGr1;
+}
+
+
+// 子事件更新为已解决
+function updateChildren(sys_id) {
+  if (log.isDebug("incident"))
+    log.info("子事件更新为已解决,父id", sys_id);
+
+//   //志存说暂不支持在一个业务规则里 又查询 又更新
+//   var inGr = new GlideRecord('incident');
+//   inGr.addQuery('parent_incident', "=", sys_id);
+//   inGr.addQuery('incident_state', "!=", 7);
+//   inGr.setValue("incident_state", 6);
+//   //设置解决code和解决原因
+//   inGr.setValue("close_code", current.getValue("close_code"));
+//   inGr.setValue("close_notes", "根据父事件解决:" + current.getValue("close_notes"));
+//   inGr.updateMultiple();
+}
+
+
+//查询是否有子事件
+function isChildren(sys_id) {
+  var inGr = new GlideRecord('incident');
+  inGr.addQuery('parent_incident', sys_id);
+  inGr.query();
+  var hasNext = inGr.hasNext()
+
+  if (log.isDebug("incident"))
+    log.info("是否有子事件", hasNext);
+
+  return hasNext;
+}</script>
+    <sys_class_name>sys_script</sys_class_name>
+    <sys_created_by>litao</sys_created_by>
+    <sys_created_on>2022-06-01 16:58:54</sys_created_on>
+    <sys_domain>global</sys_domain>
+    <sys_domain_path>/</sys_domain_path>
+    <sys_effective/>
+    <sys_id>6d184e035239452bb9824f73630c6d21</sys_id>
+    <sys_mod_count>1</sys_mod_count>
+    <sys_name/>
+    <sys_overrides/>
+    <sys_package/>
+    <sys_policy/>
+    <sys_scope>3a9f0e70b02f4cec90a10c2fe93a88a7</sys_scope>
+    <sys_update_name/>
+    <sys_updated_by>litao</sys_updated_by>
+    <sys_updated_on>2022-06-02 13:20:52</sys_updated_on>
+    <template/>
+    <when>before</when>
+  </sys_script>
+</record_update>

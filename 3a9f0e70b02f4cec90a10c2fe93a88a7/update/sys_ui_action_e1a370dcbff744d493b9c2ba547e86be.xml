@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<record_update table="sys_ui_action">
+  <sys_ui_action action="INSERT_OR_UPDATE">
+    <action_name>创建问题</action_name>
+    <active>true</active>
+    <client>true</client>
+    <client_script_v2/>
+    <comments/>
+    <condition/>
+    <form_action>false</form_action>
+    <form_button>false</form_button>
+    <form_button_v2>false</form_button_v2>
+    <form_context_menu>true</form_context_menu>
+    <form_link>false</form_link>
+    <form_menu_button_v2>false</form_menu_button_v2>
+    <form_style/>
+    <hint/>
+    <isolate_script>false</isolate_script>
+    <list_action>false</list_action>
+    <list_banner_button>false</list_banner_button>
+    <list_button>false</list_button>
+    <list_choice>false</list_choice>
+    <list_context_menu>false</list_context_menu>
+    <list_link>false</list_link>
+    <list_save_with_form_button>false</list_save_with_form_button>
+    <list_style/>
+    <messages/>
+    <name>创建问题</name>
+    <onclick/>
+    <order>100</order>
+    <script> var tableName = 'problem';
+  var prefix = `${location.origin}/nav_to.do?uri=`;
+  var uri = tableName + '.do';
+   open(prefix + uri);</script>
+    <show_insert>false</show_insert>
+    <show_multiple_update>false</show_multiple_update>
+    <show_query>false</show_query>
+    <show_update>true</show_update>
+    <sys_class_name>sys_ui_action</sys_class_name>
+    <sys_created_by>koushiqiang</sys_created_by>
+    <sys_created_on>2022-06-09 11:40:30</sys_created_on>
+    <sys_domain>global</sys_domain>
+    <sys_domain_path>/</sys_domain_path>
+    <sys_effective/>
+    <sys_id>e1a370dcbff744d493b9c2ba547e86be</sys_id>
+    <sys_mod_count>1</sys_mod_count>
+    <sys_name/>
+    <sys_overrides/>
+    <sys_package/>
+    <sys_policy/>
+    <sys_scope>3a9f0e70b02f4cec90a10c2fe93a88a7</sys_scope>
+    <sys_update_name/>
+    <sys_updated_by>koushiqiang</sys_updated_by>
+    <sys_updated_on>2022-06-09 11:40:30</sys_updated_on>
+    <table>incident</table>
+  </sys_ui_action>
+</record_update>

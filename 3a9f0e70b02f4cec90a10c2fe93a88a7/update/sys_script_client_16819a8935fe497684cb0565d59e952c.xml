@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<record_update table="sys_script_client">
+  <sys_script_client action="INSERT_OR_UPDATE">
+    <active>true</active>
+    <applies_extended>false</applies_extended>
+    <condition/>
+    <description/>
+    <field/>
+    <global>true</global>
+    <isolate_script>false</isolate_script>
+    <messages/>
+    <name>查询事件时先隐藏关于重大事件的tab页</name>
+    <order>100</order>
+    <script>function onLoad(){
+    g_form.setVisible('major_incident_state', false);//重大事件状态
+    g_form.setVisible('promoted_by', false);//推广人
+    g_form.setVisible('promoted_on', false);//推广时间
+    g_form.setVisible('business_impact', false);//商业影响
+    g_form.setVisible('cause', false);//可能导致的原因
+    g_form.setVisible('overview', false);//概述
+    g_form.setVisible('lessons_learned', false);//发现
+    g_form.setVisible('timeline', false);//时间线
+}</script>
+    <sys_class_name>sys_script_client</sys_class_name>
+    <sys_created_by>wangzhihao</sys_created_by>
+    <sys_created_on>2022-06-07 10:54:34</sys_created_on>
+    <sys_domain>global</sys_domain>
+    <sys_domain_path>/</sys_domain_path>
+    <sys_effective/>
+    <sys_id>16819a8935fe497684cb0565d59e952c</sys_id>
+    <sys_mod_count>1</sys_mod_count>
+    <sys_name/>
+    <sys_overrides/>
+    <sys_package/>
+    <sys_policy/>
+    <sys_scope>3a9f0e70b02f4cec90a10c2fe93a88a7</sys_scope>
+    <sys_update_name/>
+    <sys_updated_by>wangzhihao</sys_updated_by>
+    <sys_updated_on>2022-06-07 11:03:07</sys_updated_on>
+    <table>incident</table>
+    <type>onLoad</type>
+    <ui_type>0</ui_type>
+    <view/>
+  </sys_script_client>
+</record_update>
