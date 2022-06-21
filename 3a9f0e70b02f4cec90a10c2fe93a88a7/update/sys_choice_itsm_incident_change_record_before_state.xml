@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<record_update table="sys_choice">
+  <sys_choice action="INSERT_OR_UPDATE">
+    <dependent_value/>
+    <element>before_state</element>
+    <hint/>
+    <inactive>false</inactive>
+    <label>新建</label>
+    <language>en</language>
+    <name>itsm_incident_change_record</name>
+    <sequence>1</sequence>
+    <synonyms/>
+    <sys_class_name>sys_choice</sys_class_name>
+    <sys_created_by>litao</sys_created_by>
+    <sys_created_on>2022-06-07 01:31:22</sys_created_on>
+    <sys_domain>global</sys_domain>
+    <sys_domain_path>/</sys_domain_path>
+    <sys_effective/>
+    <sys_id>33af1ab04f8740afb4eb9c4a0dca248c</sys_id>
+    <sys_mod_count>1</sys_mod_count>
+    <sys_updated_by>litao</sys_updated_by>
+    <sys_updated_on>2022-06-07 01:31:22</sys_updated_on>
+    <value>1</value>
+  </sys_choice>
+  <sys_choice action="INSERT_OR_UPDATE">
+    <dependent_value/>
+    <element>before_state</element>
+    <hint/>
+    <inactive>false</inactive>
+    <label>处理中</label>
+    <language>en</language>
+    <name>itsm_incident_change_record</name>
+    <sequence>2</sequence>
+    <synonyms/>
+    <sys_class_name>sys_choice</sys_class_name>
+    <sys_created_by>litao</sys_created_by>
+    <sys_created_on>2022-06-07 01:31:33</sys_created_on>
+    <sys_domain>global</sys_domain>
+    <sys_domain_path>/</sys_domain_path>
+    <sys_effective/>
+    <sys_id>fc38abc9ac584f39abbb605470c44aba</sys_id>
+    <sys_mod_count>1</sys_mod_count>
+    <sys_updated_by>litao</sys_updated_by>
+    <sys_updated_on>2022-06-07 01:31:33</sys_updated_on>
+    <value>2</value>
+  </sys_choice>
+  <sys_choice action="INSERT_OR_UPDATE">
+    <dependent_value/>
+    <element>before_state</element>
+    <hint/>
+    <inactive>false</inactive>
+    <label>暂停</label>
+    <language>en</language>
+    <name>itsm_incident_change_record</name>
+    <sequence>3</sequence>
+    <synonyms/>
+    <sys_class_name>sys_choice</sys_class_name>
+    <sys_created_by>litao</sys_created_by>
+    <sys_created_on>2022-06-07 01:31:45</sys_created_on>
+    <sys_domain>global</sys_domain>
+    <sys_domain_path>/</sys_domain_path>
+    <sys_effective/>
+    <sys_id>79a56b90cfd746a2bfc66ef85a1f6a23</sys_id>
+    <sys_mod_count>1</sys_mod_count>
+    <sys_updated_by>litao</sys_updated_by>
+    <sys_updated_on>2022-06-07 01:31:45</sys_updated_on>
+    <value>3</value>
+  </sys_choice>
+  <sys_choice action="INSERT_OR_UPDATE">
+    <dependent_value/>
+    <element>before_state</element>
+    <hint/>
+    <inactive>false</inactive>
+    <label>已关闭</label>
+    <language>en</language>
+    <name>itsm_incident_change_record</name>
+    <sequence>7</sequence>
+    <synonyms/>
+    <sys_class_name>sys_choice</sys_class_name>
+    <sys_created_by>litao</sys_created_by>
+    <sys_created_on>2022-06-07 01:32:00</sys_created_on>
+    <sys_domain>global</sys_domain>
+    <sys_domain_path>/</sys_domain_path>
+    <sys_effective/>
+    <sys_id>802cb1338ef044edbf563b2f99d64d06</sys_id>
+    <sys_mod_count>1</sys_mod_count>
+    <sys_updated_by>litao</sys_updated_by>
+    <sys_updated_on>2022-06-07 01:32:00</sys_updated_on>
+    <value>7</value>
+  </sys_choice>
+  <sys_choice action="INSERT_OR_UPDATE">
+    <dependent_value/>
+    <element>before_state</element>
+    <hint/>
+    <inactive>false</inactive>
+    <label>已取消</label>
+    <language>en</language>
+    <name>itsm_incident_change_record</name>
+    <sequence>8</sequence>
+    <synonyms/>
+    <sys_class_name>sys_choice</sys_class_name>
+    <sys_created_by>litao</sys_created_by>
+    <sys_created_on>2022-06-07 01:32:12</sys_created_on>
+    <sys_domain>global</sys_domain>
+    <sys_domain_path>/</sys_domain_path>
+    <sys_effective/>
+    <sys_id>ed964b2f100647a7959d4517d09c02ee</sys_id>
+    <sys_mod_count>1</sys_mod_count>
+    <sys_updated_by>litao</sys_updated_by>
+    <sys_updated_on>2022-06-07 01:32:12</sys_updated_on>
+    <value>8</value>
+  </sys_choice>
+  <sys_choice action="INSERT_OR_UPDATE">
+    <dependent_value/>
+    <element>before_state</element>
+    <hint/>
+    <inactive>false</inactive>
+    <label>已解决</label>
+    <language>en</language>
+    <name>itsm_incident_change_record</name>
+    <sequence>6</sequence>
+    <synonyms/>
+    <sys_class_name>sys_choice</sys_class_name>
+    <sys_created_by>litao</sys_created_by>
+    <sys_created_on>2022-06-07 01:32:26</sys_created_on>
+    <sys_domain>global</sys_domain>
+    <sys_domain_path>/</sys_domain_path>
+    <sys_effective/>
+    <sys_id>5dd862e5f12b403c87e21cf71a3914c8</sys_id>
+    <sys_mod_count>1</sys_mod_count>
+    <sys_updated_by>litao</sys_updated_by>
+    <sys_updated_on>2022-06-07 01:32:26</sys_updated_on>
+    <value>6</value>
+  </sys_choice>
+</record_update>

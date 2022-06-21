@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<record_update table="sys_script_client">
+  <sys_script_client action="INSERT_OR_UPDATE">
+    <active>true</active>
+    <applies_extended>false</applies_extended>
+    <condition/>
+    <description/>
+    <field>parent_incident</field>
+    <global>true</global>
+    <isolate_script>false</isolate_script>
+    <messages/>
+    <name>lt-设置父事件时校验是否有子事件</name>
+    <order>100</order>
+    <script>function onChange() {
+  debugger;
+  var parent_incident = g_form.getValue("parent_incident");
+  if (!parent_incident) {
+    return;
+  }
+  var sys_id = g_form.uniqueValue;
+  if (!sys_id) {
+    // 新增是没有id
+    return;
+  }
+  // 查询子事件
+  var gr = new GlideRecord("incident");
+  gr.addQuery("parent_incident", sys_id);
+  gr.query((e, res) =&gt; {
+    debugger;
+    if (res &amp;&amp; res.data &amp;&amp; res.data.records &amp;&amp; res.data.records.length != 0) {
+       g_form.setValue("parent_incident", null);
+      var msg = new GwtMessage();
+      msg.addErrorMessage('事件下有子事件时不能设置父类事件');
+    }
+  })
+
+
+}</script>
+    <sys_class_name>sys_script_client</sys_class_name>
+    <sys_created_by>litao</sys_created_by>
+    <sys_created_on>2022-06-08 21:51:32</sys_created_on>
+    <sys_domain>global</sys_domain>
+    <sys_domain_path>/</sys_domain_path>
+    <sys_effective/>
+    <sys_id>bcbaa817bdf548089bb0b00d864a6350</sys_id>
+    <sys_mod_count>1</sys_mod_count>
+    <sys_name/>
+    <sys_overrides/>
+    <sys_package/>
+    <sys_policy/>
+    <sys_scope>3a9f0e70b02f4cec90a10c2fe93a88a7</sys_scope>
+    <sys_update_name/>
+    <sys_updated_by>litao</sys_updated_by>
+    <sys_updated_on>2022-06-09 14:22:54</sys_updated_on>
+    <table>incident</table>
+    <type>onChange</type>
+    <ui_type>0</ui_type>
+    <view/>
+  </sys_script_client>
+</record_update>

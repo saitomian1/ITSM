@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<record_update table="sys_script_client">
+  <sys_script_client action="INSERT_OR_UPDATE">
+    <active>true</active>
+    <applies_extended>false</applies_extended>
+    <condition>current.canWrite()</condition>
+    <description/>
+    <field/>
+    <global>true</global>
+    <isolate_script>false</isolate_script>
+    <messages/>
+    <name>问题任务首页显示规则</name>
+    <order>100</order>
+    <script>  // - 问题任务首页显示规则
+   function onLoad(){
+    g_form.setMandatory('number', true);
+    g_form.setMandatory('priority', true);
+    g_form.setMandatory('task_state', true);
+    g_form.setMandatory('problem_task_type', true);
+    g_form.setMandatory('short_description', true);
+  
+    g_form.setDisabled('number', true);
+    g_form.setDisabled('task_state', true);
+    g_form.setDisabled('closed_by', true);
+    g_form.setDisabled('closed_at', true);
+    g_form.setDisabled('close_code', true);
+    g_form.setDisabled('canceled_by', true);
+    g_form.setDisabled('canceled_at', true);
+     
+    g_form.setVisible('close_notes', false);
+    g_form.setVisible('canceled_by', false);
+    g_form.setVisible('canceled_at', false);
+    g_form.setVisible('cancel_reason', false);
+    g_form.setVisible('close_code', false);
+    
+     
+    if(g_form.getValue('task_state')&gt;=12){
+      g_form.setMandatory('assigned_to', true);
+    }
+     //评估完以后，设置问题类型不可变
+     if(g_form.getValue('task_state')&gt;12){
+       g_form.setDisabled('problem_task_type', true);
+       g_form.setDisabled('priority', true);
+     }
+   
+    if(g_form.getValue('task_state')==34 &amp;&amp; g_form.getValue('problem_task_type')=='general'){
+        g_form.setVisible('close_code', true);
+        g_form.setMandatory('close_notes', true);
+        g_form.setVisible('close_notes', true);
+      }
+     if(g_form.getValue('task_state')==34 &amp;&amp; g_form.getValue('problem_task_type')=='rca'){
+        g_form.setVisible('close_code', true);
+        g_form.setMandatory('cause_code', true);
+        g_form.setMandatory('cause_notes', true);
+        g_form.setMandatory('fix_notes', true);
+       
+      }
+    if(g_form.getValue('task_state')==45){
+     g_form.setMandatory('cancel_reason', true);
+     g_form.setVisible('cancel_reason', true);
+    g_form.setVisible('canceled_by', true);
+    g_form.setVisible('canceled_at', true);
+     g_form.setVisible('close_code', true);
+     g_form.setVisible('close_notes', false);
+     g_form.setVisible('closed_by', false);
+     g_form.setVisible('closed_at', false);
+     }
+  }
+</script>
+    <sys_class_name>sys_script_client</sys_class_name>
+    <sys_created_by>koushiqiang</sys_created_by>
+    <sys_created_on>2022-06-02 15:28:39</sys_created_on>
+    <sys_domain>global</sys_domain>
+    <sys_domain_path>/</sys_domain_path>
+    <sys_effective/>
+    <sys_id>aea6c614a0f54792b85f02db38d32cb2</sys_id>
+    <sys_mod_count>1</sys_mod_count>
+    <sys_name/>
+    <sys_overrides/>
+    <sys_package/>
+    <sys_policy/>
+    <sys_scope>3a9f0e70b02f4cec90a10c2fe93a88a7</sys_scope>
+    <sys_update_name/>
+    <sys_updated_by>koushiqiang</sys_updated_by>
+    <sys_updated_on>2022-06-10 11:59:40</sys_updated_on>
+    <table>problem_task</table>
+    <type>onLoad</type>
+    <ui_type>0</ui_type>
+    <view/>
+  </sys_script_client>
+</record_update>

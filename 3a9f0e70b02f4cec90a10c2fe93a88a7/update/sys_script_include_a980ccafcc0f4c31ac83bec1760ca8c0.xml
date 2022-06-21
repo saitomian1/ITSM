@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<record_update table="sys_script_include">
+  <sys_script_include action="INSERT_OR_UPDATE">
+    <access/>
+    <active>true</active>
+    <api_name>ChangeIncidentRecord</api_name>
+    <caller_access/>
+    <client_callable>true</client_callable>
+    <description>事件状态修改信息记录</description>
+    <name>ChangeIncidentRecord</name>
+    <script>var ChangeIncidentRecord = Class.create();
+ChangeIncidentRecord.prototype = Object.extendsObject(AbstractAjaxProcessor, {
+
+  //添加修改记录 客户端调用
+  addRecord: function() {
+    //修改记录信息
+    var record = {};
+    record.sys_id = this.getParameter('sys_id');
+    record.incident_state = this.getParameter('incident_state');
+    record.work_notes = this.getParameter('work_notes');
+    record.assignment_group = this.getParameter('assignment_group');
+    record.assigned_to = this.getParameter('assigned_to');
+    record.watch_list = this.getParameter('watch_list');
+    record.caller_id = this.getParameter('caller_id');
+    //gs.print("事件修改记录当前值1" + new JSON().encode(record));
+    this.addCommon(record);
+  },
+
+  //添加修改记录
+  addRecordServer: function(record) {
+    //gs.print("事件修改记录当前值2" + new JSON().encode(record));
+    this.addCommon(record);
+  },
+
+  addCommon: function(record) {
+    var log = new LogUtils();
+    var stringUtils = new StringUtils();
+
+    var isChange = false;
+    var change_record = new GlideRecord('itsm_incident_change_record');
+
+    // 更新,查询数据库记录信息
+    var inGr = new GlideRecord('incident');
+    if (!inGr.get(record.sys_id)) {
+      gs.addErrorMessage('事件不存在' + sys_id);
+      current.setAbortAction(true);
+    }
+    // 事件状态修改
+    var db_incident_state = inGr.getValue("incident_state");
+    if (record.incident_state != db_incident_state) {
+      isChange = true;
+      change_record.setValue("before_state", db_incident_state);
+      change_record.setValue("current_state", record.incident_state);
+    }
+    // 工作笔记修改
+    var db_work_notes = inGr.getValue("work_notes");
+    if (record.work_notes != db_work_notes) {
+      isChange = true;
+      change_record.setValue("work_notes", record.work_notes);
+    }
+    // 分配组不为空,并且与数据库值不一样 创建分配组记录
+    var db_assignment_group = inGr.getValue("assignment_group");
+    if (!stringUtils.isEmpty(record.assignment_group) &amp;&amp; record.assignment_group != db_assignment_group) {
+      isChange = true;
+      change_record.setValue("ch_assignment_group", record.assignment_group);
+    }
+    // 分配人不为空,并且与数据库值不一样 创建分配人记录
+    var db_assigned_to = inGr.getValue("assigned_to");
+    if (!stringUtils.isEmpty(record.assigned_to) &amp;&amp; record.assigned_to != db_assigned_to) {
+      isChange = true;
+      change_record.setValue("ch_assigned_to", record.assigned_to);
+    }
+    var db = {};
+    db.db_incident_state = db_incident_state;
+    db.db_work_notes = db_work_notes;
+    db.db_assignment_group = db_assignment_group;
+    db.db_assigned_to = db_assigned_to;
+    //gs.print("事件修改记录db值" + new JSON().encode(db));
+
+    //有修改
+    if (isChange) {
+      change_record.setValue("incident_id", record.sys_id);
+      change_record.setValue("current_state", record.incident_state);
+      // 设置通知发送的处理人
+      change_record.setValue("assigned_to", record.assigned_to);
+      // 设置通知发送的处理组
+      change_record.setValue("assignment_group", record.assignment_group);
+      // 设置通知发送的 呼叫者
+      change_record.setValue("caller_id", record.caller_id);
+      if (!stringUtils.isEmptyList(record.watch_list)) {
+        //设置通知发送的观察者名单;
+        var watch_list = stringUtils.subListStrValue(record.watch_list);
+        change_record.setValue("watch_list", watch_list);
+      }
+      //新增
+      change_record.insert();
+    }
+  }
+});</script>
+    <sys_class_name>sys_script_include</sys_class_name>
+    <sys_created_by>litao</sys_created_by>
+    <sys_created_on>2022-06-07 01:08:16</sys_created_on>
+    <sys_effective/>
+    <sys_id>a980ccafcc0f4c31ac83bec1760ca8c0</sys_id>
+    <sys_mod_count>1</sys_mod_count>
+    <sys_name/>
+    <sys_package/>
+    <sys_policy/>
+    <sys_scope>3a9f0e70b02f4cec90a10c2fe93a88a7</sys_scope>
+    <sys_update_name/>
+    <sys_updated_by>litao</sys_updated_by>
+    <sys_updated_on>2022-06-14 17:36:33</sys_updated_on>
+  </sys_script_include>
+</record_update>

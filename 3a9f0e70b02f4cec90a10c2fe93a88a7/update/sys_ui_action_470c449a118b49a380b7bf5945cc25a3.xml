@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<record_update table="sys_ui_action">
+  <sys_ui_action action="INSERT_OR_UPDATE">
+    <action_name/>
+    <active>true</active>
+    <client>true</client>
+    <client_script_v2/>
+    <comments/>
+    <condition>current.getValue('task_state')==23</condition>
+    <form_action>true</form_action>
+    <form_button>true</form_button>
+    <form_button_v2>false</form_button_v2>
+    <form_context_menu>false</form_context_menu>
+    <form_link>false</form_link>
+    <form_menu_button_v2>false</form_menu_button_v2>
+    <form_style/>
+    <hint/>
+    <isolate_script>false</isolate_script>
+    <list_action>false</list_action>
+    <list_banner_button>false</list_banner_button>
+    <list_button>false</list_button>
+    <list_choice>false</list_choice>
+    <list_context_menu>false</list_context_menu>
+    <list_link>false</list_link>
+    <list_save_with_form_button>false</list_save_with_form_button>
+    <list_style/>
+    <messages/>
+    <name>完成任务</name>
+    <onclick>complete();</onclick>
+    <order>180</order>
+    <script>//完成任务
+function complete(){
+    var flag = false;
+    // 完成关闭
+      g_form.setValue('task_state',34);
+      g_form.setValue('close_code','completed');
+     
+    var task_type = g_form.getValue("problem_task_type");
+    // 普通任务更新关闭信息
+    if(task_type == 'general'){
+        g_form.setVisible('close_notes',true);
+        g_form.setMandatory('close_notes', true);
+         var close_notes = g_form.getValue("close_notes");
+     if(!close_notes){
+       flag = true;
+        var msg = new GwtMessage();
+       msg.addInfoMessage("完成普通任务:关闭信息-&gt;关闭说明不能为空!");
+      }
+    }else{
+      // 根因分析任务更新原因代码，原因说明，建议修复说明
+          g_form.setMandatory('cause_code', true);
+          g_form.setMandatory('cause_notes', true);
+          g_form.setMandatory('fix_notes', true);
+       var cause_code = g_form.getValue("cause_code");
+       var cause_notes = g_form.getValue("cause_notes");
+       var fix_notes = g_form.getValue("fix_notes");
+       if(!cause_code||!cause_notes||!fix_notes){
+        var msg = new GwtMessage();
+        msg.addInfoMessage("完成根因分析任务:分析信息-&gt;原因代码、原因说明、建议修复说明皆不能为空!");
+          flag = true;
+       }
+    }
+    if(flag){
+        return;
+      }
+     // 获取用户id
+            var ga = new GlideAjax('UserUtils');
+            ga.addParam('sysparm_name', 'getUserID'); //方法名称
+            ga.getJson(response =&gt; {
+              if (response.data == null || response.status != "success") {
+                var msg = new GwtMessage();
+                msg.addErrorMessage('获取当前用户id异常');
+                return;
+              }
+              console.log(response.data);
+              var userId = response.data.id;
+              g_form.setValue('closed_by',userId);
+              g_form.setValue('closed_at',new Date());
+             
+//添加活动记录
+var changeGa = new GlideAjax('ChangeProblemTaskRecord');
+	changeGa.addParam('sysparm_name', 'addRecord'); //方法名称
+	changeGa.addParam('problem_task_id', current.sys_id);
+	changeGa.addParam('task_state', 34);
+	changeGa.addParam('work_notes', g_form.getValue("work_notes"));
+	changeGa.addParam('assignment_group', g_form.getValue("assignment_group"));
+	changeGa.addParam('assigned_to', g_form.getValue("assigned_to"));
+	changeGa.addParam('watch_list', g_form.getValue("watch_list"));
+	changeGa.getJson(response =&gt; {
+
+		if (response.data == null || response.status != "success") {
+			var msg = new GwtMessage();
+			msg.addErrorMessage('记录事件状态异常');
+		}
+		current.update(function() {
+			window.location.reload();
+		}, {
+			prevent: true
+		});
+	});
+          });
+        }</script>
+    <show_insert>false</show_insert>
+    <show_multiple_update>false</show_multiple_update>
+    <show_query>false</show_query>
+    <show_update>true</show_update>
+    <sys_class_name>sys_ui_action</sys_class_name>
+    <sys_created_by>koushiqiang</sys_created_by>
+    <sys_created_on>2022-06-02 16:21:53</sys_created_on>
+    <sys_domain>global</sys_domain>
+    <sys_domain_path>/</sys_domain_path>
+    <sys_effective/>
+    <sys_id>470c449a118b49a380b7bf5945cc25a3</sys_id>
+    <sys_mod_count>1</sys_mod_count>
+    <sys_name/>
+    <sys_overrides/>
+    <sys_package/>
+    <sys_policy/>
+    <sys_scope>3a9f0e70b02f4cec90a10c2fe93a88a7</sys_scope>
+    <sys_update_name/>
+    <sys_updated_by>koushiqiang</sys_updated_by>
+    <sys_updated_on>2022-06-15 08:37:15</sys_updated_on>
+    <table>problem_task</table>
+  </sys_ui_action>
+</record_update>
