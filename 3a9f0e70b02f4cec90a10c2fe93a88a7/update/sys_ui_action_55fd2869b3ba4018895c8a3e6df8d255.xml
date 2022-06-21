@@ -25,7 +25,7 @@
     <list_save_with_form_button>false</list_save_with_form_button>
     <list_style/>
     <messages/>
-    <name>事件关注</name>
+    <name>事件关注（修改版）</name>
     <onclick>follow()</onclick>
     <order>100</order>
     <script>// 当用户未在关注名单,显示关注按钮
@@ -58,7 +58,7 @@ function follow() {
     <show_update>true</show_update>
     <sys_class_name>sys_ui_action</sys_class_name>
     <sys_created_by>litao</sys_created_by>
-    <sys_created_on>2022-06-01 14:38:38</sys_created_on>
+    <sys_created_on>2022-06-21 15:18:10</sys_created_on>
     <sys_domain>global</sys_domain>
     <sys_domain_path>/</sys_domain_path>
     <sys_effective/>
@@ -71,7 +71,7 @@ function follow() {
     <sys_scope>3a9f0e70b02f4cec90a10c2fe93a88a7</sys_scope>
     <sys_update_name/>
     <sys_updated_by>litao</sys_updated_by>
-    <sys_updated_on>2022-06-09 13:31:31</sys_updated_on>
+    <sys_updated_on>2022-06-21 15:36:47</sys_updated_on>
     <table>incident</table>
   </sys_ui_action>
 </record_update>
