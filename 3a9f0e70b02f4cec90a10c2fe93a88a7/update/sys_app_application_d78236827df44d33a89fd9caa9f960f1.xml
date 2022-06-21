@@ -11,7 +11,7 @@
     <roles>5d2b343cb0b64be2a544dd6ba4f522eb,a5a23c97882c49aaa8e4efa74e53d9e1,040da46fb78a4e4498e4757077789586,d14cb1fc9446427baa30cd7d8c0fc9c4</roles>
     <sys_class_name>sys_app_application</sys_class_name>
     <sys_created_by>admin</sys_created_by>
-    <sys_created_on>2022-06-01 11:24:22</sys_created_on>
+    <sys_created_on>2022-06-20 22:41:31</sys_created_on>
     <sys_domain>global</sys_domain>
     <sys_domain_path>/</sys_domain_path>
     <sys_effective/>
@@ -24,7 +24,7 @@
     <sys_scope>3a9f0e70b02f4cec90a10c2fe93a88a7</sys_scope>
     <sys_update_name/>
     <sys_updated_by>admin</sys_updated_by>
-    <sys_updated_on>2022-06-08 14:04:09</sys_updated_on>
+    <sys_updated_on>2022-06-21 10:28:25</sys_updated_on>
     <title>ITSM管理系统</title>
     <view_name/>
   </sys_app_application>
